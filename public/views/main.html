@@ -2,6 +2,7 @@
   <nav class="uk-navbar" style="background: #ff6674; padding-top: 8px;padding-bottom:8px ">
 
     <a class="uk-navbar-brand" href="/#/" style="font-family: 'Pacifico', cursive; font-size: 30px">
+    <img src="/images/logo.jpg" height="50px" width="50px" style="border-top-left-radius: 5px;border-top-right-radius: 5px">
     <b>DateWithMe</b></a>
 
    <!--  <ul class="uk-navbar-nav">
@@ -56,7 +57,7 @@
                 <p class="style-font-canvas-no-center">Tuổi: {{tuoi}}</p>
                 <p class="style-font-canvas-no-center">Sở thích: {{ sothich | limitTo: 150 }}{{sothich.length > 150 ? '...' : ''}}</p>
                 <input class='update_avartar' onchange="angular.element(this).scope().change_avartar(this)" style="display: none"  type="file" file-model="myFile"/>
-                <button class="uk-button uk-button-primary" style="border-radius: 50px" ng-click="thay_doi_thong_tin()">Thay đổi thông tin</button>
+                <button class="uk-button uk-button-primary" ng-click="thay_doi_thong_tin()">Thay đổi thông tin</button>
                 <button class="btn-dang-xuat uk-width-1-1 uk-button style-font-canvas-no-center" ng-click="logout()">Đăng xuất</button>
               </div>
           </div>
@@ -185,21 +186,6 @@
           </center>
         </div>
       </div>
-      <div id="thongtindoiphuong" class="uk-modal">
-          <div class="uk-modal-dialog">
-              <a class="uk-modal-close uk-close"></a>
-              <div class="uk-modal-header" style="font-size: 18px">Thông tin đối phương</div>
-              <div ng-if='statusdoiphuong'>
-          <center ng-if='images_doiphuong  != null'>
-             <img ng-click='thongtindoiphuong()' class="uk-border-circle" height="100px" width="100px" ng-src="{{images_doiphuong}}">
-          </center>
-          <p style="font-family: 'Indie Flower', cursive;">Tên: {{ten}}</p>
-          <p style="font-family: 'Indie Flower', cursive;">Giới tính: {{gioitinh}}</p>
-          <p style="font-family: 'Indie Flower', cursive;">Sở thích: {{sothich_doiphuong}}</p>
-          <button class="uk-button uk-button-primary uk-width-1-1" style="font-family: 'Indie Flower', cursive;border-radius: 10px;"><b>{{statusdoiphuong}}</b></button>
-          </div>
-          </div>
-      </div>
       <div ng-if='get_status_phong' class="uk-panel uk-panel-box" style="border: 2px solid #ff6674; background: #ffffff;border-radius: 15px;">
         <p><center><h3 style="font-family: 'Indie Flower', cursive;">Hai đứa đang</h3></center></p>
         <p><button class="uk-button uk-button-primary uk-width-1-1" data-uk-modal="{center:true,target:'#statusPhong'}" style="border-radius: 10px; background: {{get_mau_status_phong}}"><b style="font-family: 'Indie Flower', cursive;">{{get_status_phong}}</b></button></p>
@@ -222,6 +208,21 @@
         <ul class="uk-list thongtin-server" style="height: 115px;">
         </ul>
       </div> -->
+    </div>
+    <div id="thongtindoiphuong" class="uk-modal">
+      <div class="uk-modal-dialog">
+          <a class="uk-modal-close uk-close"></a>
+          <div class="uk-modal-header" style="font-size: 18px">Thông tin đối phương</div>
+          <div ng-if='statusdoiphuong'>
+      <center ng-if='images_doiphuong  != null'>
+         <img ng-click='thongtindoiphuong()' class="uk-border-circle" height="100px" width="100px" ng-src="{{images_doiphuong}}">
+      </center>
+      <p style="font-family: 'Indie Flower', cursive;">Tên: {{ten}}</p>
+      <p style="font-family: 'Indie Flower', cursive;">Giới tính: {{gioitinh}}</p>
+      <p style="font-family: 'Indie Flower', cursive;">Sở thích: {{sothich_doiphuong}}</p>
+      <button class="uk-button uk-button-primary uk-width-1-1" style="font-family: 'Indie Flower', cursive;border-radius: 10px;"><b>{{statusdoiphuong}}</b></button>
+      </div>
+      </div>
     </div>
     </div>
   </div>
