@@ -1,0 +1,27 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "nodejs ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "~1.0.0",
+    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "~1.0.1",
+    "debug": "~0.7.4",
+    "express": "~4.0.0",
+    "express-session": "^1.13.0",
+    "hjs": "~0.0.6",
+    "hogan-express": "^0.5.2",
+    "mongoose": "^4.4.19",
+    "morgan": "~1.0.0",
+    "multer": "^1.1.0",
+    "nodemailer": "^2.4.2",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "socket.io": "^1.4.6",
+    "static-favicon": "~1.0.0"
+  }
+}

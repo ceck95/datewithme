@@ -1,0 +1,122 @@
+<div class="uk-grid test">
+        <div class="uk-width-1-6"></div>
+        <div class="uk-width-2-6 padding-box-login-image"><img src="/images/login-backgroud.png"></div>
+        <div class="uk-width-2-6 padding-box-login">
+          <div class="uk-panel uk-panel-box custom-font">
+              <center class="font-index-panel">
+                <h1 class="uk-panel-title custom-title-panel">
+                  Date With Me
+                </h1>
+                <h4>Đăng kí để tham gia hẹn hò,giao lưu kết bạn <3 </h4>
+                <a class="uk-button uk-button-primary uk-button-large uk-width-1-1" href="/auth/facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i> Đăng nhập bằng facebook</a>
+                <h3 class="custom-font">Hoặc</h3>
+                <form class="uk-form">
+                  <div class="uk-form-row">
+                      <div class="uk-form-controls">
+                          <input ng-model="email" type="text" class="uk-width-1-1 uk-form-large" placeholder="Email">
+                      </div>
+                  </div>
+                  <div class="uk-form-row">
+                      <div class="uk-form-controls">
+                          <input ng-model="name" type="text" placeholder="Tên hiển thị" class="uk-width-1-1 uk-form-large">
+                      </div>
+                  </div>
+                  <div class="uk-form-row">
+                      <div class="uk-form-controls">
+                         <input ng-model="username" type="text" placeholder="Tên đăng nhập" class="uk-margin-small-top uk-width-1-1 uk-form-large">
+ <!--                         <input ng-model="tuoi_user" type="text" placeholder="Tuổi của bạn" class="uk-margin-small-top uk-width-2-6 uk-form-large">
+                          <select ng-model="sex" class="uk-margin-small-top uk-form-large">
+                            <option value="nam">Nam</option>
+                            <option value="nu">Nữ</option>
+                          </select>     -->
+                      </div>
+                  </div>
+                  <div class="uk-form-row">
+                      <div class="uk-form-controls">
+                          <input ng-model="password_dk" type="password" placeholder="Mật khẩu" class="uk-width-1-1 uk-form-large">
+                      </div>
+                  </div>
+                  <div class="uk-form-row">
+                      <div class="uk-form-controls">
+                        <button ng-click="signup(email,name,username,password_dk)" class="uk-button uk-button-primary uk-button-large uk-width-1-1">Đăng kí</button>
+                        <p>Bằng cách đăng ký, bạn đồng ý với Điều khoản và Chính sách quyền riêng tư của chúng tôi.</p>
+                      </div>
+                  </div>
+                </form>
+              </center>
+          </div>
+          <div class="uk-panel uk-panel-box">
+              <center class="custom-font">
+                <p class="custom-font">Bạn có tài khoản?<a href="#dang-nhap" data-uk-modal="{center:true}">Đăng nhập</a></p>
+                <div id="dang-nhap" class="uk-modal">
+                    <div class="uk-modal-dialog">
+                        <a class="uk-modal-close uk-close"></a>
+                        <div class="uk-modal-header" style="font-size: 18px">Đăng nhập</div>
+                        <form class="uk-form">
+                        <div class="uk-form-row">
+                          <div class="uk-form-controls">
+                              <input ng-model="user" type="text" placeholder="Tên đăng nhập" class="uk-width-1-1 uk-form-large">
+                          </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <div class="uk-form-controls">
+                                <input ng-model="pass" type="password" placeholder="Mật khẩu" class="uk-width-1-1 uk-form-large">
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <div class="uk-form-controls">
+                              <button ng-click="dangnhap(user,pass)" class="uk-button uk-button-primary uk-button-large uk-width-1-1">Đăng nhập</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="kickhoat" class="uk-modal">
+                    <div class="uk-modal-dialog">
+                        <a class="uk-modal-close uk-close"></a>
+                        <div class="uk-modal-header" style="font-size: 18px">Kích hoạt</div>
+                        <form class="uk-form">
+                        <div class="uk-form-row">
+                            <div class="uk-form-controls">
+                                <input ng-model="makickhoat" type="text" placeholder="Mã kíck hoạt" class="uk-width-1-1 uk-form-large">
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <div class="uk-form-controls">
+                              <button ng-click="kickhoat(makickhoat)" class="uk-button uk-button-primary uk-button-large uk-width-1-1">Kíck hoạt</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="update_tt" class="uk-modal">
+                    <div class="uk-modal-dialog">
+                        <a class="uk-modal-close uk-close"></a>
+                        <div class="uk-modal-header" style="font-size: 18px">Thêm thông tin</div>
+                        <form class="uk-form">
+                        <div class="uk-form-row">
+                        <div class="uk-form-controls">
+                               <input ng-model="tuoi_face" type="text" placeholder="Tuổi của bạn" class="uk-margin-small-top uk-width-5-6 uk-form-large">
+                                <select ng-model="sex_face" class="uk-margin-small-top uk-form-large">
+                                  <option value="nam">Nam</option>
+                                  <option value="nu">Nữ</option>
+                                </select>    
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                        <div class="uk-form-controls">
+                             <textarea ng-model="sothich" type="text" placeholder="Sở thích của bạn" class="uk-margin-small-top uk-width-1-1 uk-form-large" rows=2></textarea> 
+                          </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <div class="uk-form-controls">
+                              <button ng-click="update_face(tuoi_face,sex_face,sothich)" class="uk-button uk-button-primary uk-button-large uk-width-1-1">Thêm</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+              </center>
+          </div>
+        </div>
+    </div>

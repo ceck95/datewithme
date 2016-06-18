@@ -1,0 +1,213 @@
+<header>
+  <nav class="uk-navbar" style="background: #ff6674; padding-top: 8px;padding-bottom:8px ">
+
+    <a class="uk-navbar-brand" href="/#/" style="font-family: 'Pacifico', cursive; font-size: 30px">
+    <b>DateWithMe</b></a>
+
+   <!--  <ul class="uk-navbar-nav">
+        <li class="uk-parent uk-active" data-uk-dropdown="">
+            <a href="" style="font-family: 'Indie Flower', cursive;"><i class="uk-icon-home"></i> Home</a> -->
+<!-- 
+            <div class="uk-dropdown uk-dropdown-navbar">
+                <ul class="uk-nav uk-nav-navbar">
+                    <li><a href="#">Item</a></li>
+                    <li><a href="#">Another item</a></li>
+                    <li class="uk-nav-header">Header</li>
+                    <li><a href="#">Item</a></li>
+                    <li><a href="#">Another item</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <li><a href="#">Separated item</a></li>
+                </ul>
+            </div> -->
+
+  <!--       </li>
+
+    </ul> -->
+
+    <!-- <div class="uk-navbar-content">Some <a href="#">link</a>.</div> -->
+
+   <!--  <div class="uk-navbar-content uk-hidden-small">
+        <form class="uk-form uk-margin-remove uk-display-inline-block">
+            <input type="text" placeholder="Search">
+            <button class="uk-button uk-button-primary">Submit</button>
+        </form>
+    </div> -->
+
+    <div class="uk-navbar-content uk-navbar-flip  uk-hidden-small">
+        <ul class="uk-navbar-nav">
+        <li class="uk-parent uk-active" data-uk-dropdown="">
+            <a href="" style="font-family: 'Indie Flower', cursive;background:#ffffff;border-radius: 10px" data-uk-offcanvas="{target:'#my-id'}"><i class="uk-icon-user"></i> {{name}}</a>
+            <div id="my-id" class="uk-offcanvas">
+              <div class="uk-offcanvas-bar uk-offcanvas-bar-flip">
+                <!-- <ul class="uk-nav uk-nav-navbar">
+                    <li class="uk-nav-header">{{name}}</li>
+                    <li><a href="#">Thiết lập</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <li><a ng-click="logout()">Đăng xuất</a></li>
+                </ul> -->
+                <center>
+                  <p class="avatar-user">
+                    <img class="uk-border-circle" height="200px" width="200px" ng-click="open_select_file()" src="{{images}}">
+                  </p>
+                  <p class="style-font-canvas">{{name}}</p>
+                </center>
+                <p ng-if='username' class="style-font-canvas-no-center">Tên đăng nhập: {{username}}</p>
+                <p class="style-font-canvas-no-center">Giới tính: {{sexvi}}</p>
+                <p class="style-font-canvas-no-center">Tuổi: {{tuoi}}</p>
+                <p class="style-font-canvas-no-center">Sở thích: {{ sothich | limitTo: 150 }}{{sothich.length > 150 ? '...' : ''}}</p>
+                <input class='update_avartar' onchange="angular.element(this).scope().change_avartar(this)" style="display: none"  type="file" file-model="myFile"/>
+                <button class="uk-button uk-button-primary" style="border-radius: 50px" ng-click="thay_doi_thong_tin()">Thay đổi thông tin</button>
+                <button class="btn-dang-xuat uk-width-1-1 uk-button style-font-canvas-no-center" ng-click="logout()">Đăng xuất</button>
+              </div>
+          </div>
+          <div id="thaydoithongtin" class="uk-modal">
+            <div class="uk-modal-dialog">
+                <a class="uk-modal-close uk-close"></a>
+                <div class="uk-modal-header" style="font-size: 18px">Thay đổi thông tin</div>
+                <form class="uk-form">
+                <div class="uk-form-row">
+                  <label class="uk-form-label" for="form-s-it">Tên của bạn</label>
+                  <div class="uk-form-controls">
+                         <input ng-model="name" type="text" placeholder="Tên của bạn" class="uk-margin-small-top uk-width-1-1 uk-form-large">
+                  </div>
+                </div>
+                <div class="uk-form-row">
+                  <label class="uk-form-label" for="form-s-it">Tuổi của bạn</label>
+                  <div class="uk-form-controls">
+                         <input ng-model="tuoi" type="text" placeholder="Tuổi của bạn" class="uk-margin-small-top uk-width-1-1 uk-form-large">  
+                  </div>
+                </div>
+                <div class="uk-form-row">
+                  <label class="uk-form-label" for="form-s-it">Sở thích của bạn</label>
+                  <div class="uk-form-controls">
+                         <textarea ng-nicescroll nice-option="{cursorcolor: '#333',autohidemode: true, cursorborder: 'none',}" ng-model="sothich" type="text" placeholder="Sở thích của bạn" class="uk-margin-small-top uk-width-1-1 uk-form-large" rows="2"></textarea>  
+                  </div>
+                </div>
+                <div class="uk-form-row">
+                    <div class="uk-form-controls">
+                      <button ng-click="update_thong_tin(name,tuoi,sothich)" class="uk-button uk-button-primary uk-button-large uk-width-1-1">Thay đổi</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+        </li>
+
+    </ul>
+    </div>
+
+</nav>
+</header>
+<main>
+  <div class="uk-grid">
+    <div class="uk-width-1-6"></div>
+    <div class="uk-width-3-6 container">
+
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> -->
+        <div class="uk-width-1-1">
+            <div class="uk-panel uk-panel-box" style="margin-top:10px;border: 2px solid #ff6674; background: #ffffff;border-radius: 15px;">
+              <!--Heading-->
+    <!--         <div class="uk-panel-title custom-title-panel">
+              <h3 class="panel-title">Chat</h3>
+            </div> -->
+        
+            <!--Widget body-->
+            <div id="demo-chat-body" class="collapse in">
+              <div class="nano has-scrollbar" style="height:480px" >
+                <div class="nano-content pad-all" style="right: -17px;" ng-nicescroll nice-option="{cursorcolor: '#333',autohidemode: true, cursorborder: 'none',}" scroll-glue>
+                  <ul class="list-unstyled media-block">
+                    <li ng-repeat = "one in datamessage" class="mar-btm">
+                      <div ng-if='one.userid == id_user_goc' class="media-right">
+                        <img ng-src="{{one.images}}" class="img-circle img-sm" alt="Profile Picture">
+                      </div>
+                      <div ng-if='one.userid != id_user_goc' class="media-left">
+                        <img ng-src="{{one.images}}" class="img-circle img-sm" alt="Profile Picture">
+                      </div>
+                      <div ng-if='one.userid == id_user_goc' class="media-body pad-hor speech-right">
+                        <div class="speech">
+                          <p style="font-size: 13px" ng-bind-html="one.content"></p>
+                        </div>
+                      </div>
+                      <div ng-if='one.userid != id_user_goc' class="media-body pad-hor speech-left">
+                        <div class="speech">
+                          <p style="font-size: 13px" ng-bind-html="one.content"></p>
+                        </div>
+                      </div>
+                    </li>
+
+                  </ul>
+                </div>
+              <div class="nano-pane"><div class="nano-slider" style="height: 141px; transform: translate(0px, 0px);"></div></div></div>
+        
+              <!--Widget footer-->
+              <div class="uk-grid">
+                <div class="uk-width-7-10">
+                  <textarea ng-nicescroll nice-option="{cursorcolor: '#333',autohidemode: true, cursorborder: 'none',}" rows=1 placeholder="Nhập nội dung..." class="form-control chat-input" self-enter="sendchat(messagechat)" ng-model = "messagechat"></textarea>
+                </div>
+                <div style="position: relative;" class="uk-width-3-10">
+                   <!--button class="uk-button uk-button-icon" style="background: none;"><img src="../images/icon_chat.png" height="30px" width="30px"></button>
+                    <button class="uk-button" style="background: none;" ng-click="sendchat(messagechat)"><img src="../images/send_icon.png" height="30px" width="30px"></button-->
+                    <button class="btn-icon btn-icon-smile uk-button-icon"></button>
+                    <button class="btn-icon btn-icon-send" ng-click="sendchat(messagechat)"></button>
+                    <div class="menu-icon">
+                      <div>
+                      <img class="SizeIcon" ng-repeat="i in getNumber(54) track by $index" ng-click="inputimages($event)" data-img='/images/icon/icon_{{$index+1}}.png' ng-src="/images/icon/icon_{{$index+1}}.png">
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="uk-width-1-6 uk-hidden-small" style="margin-top:10px;padding-right: 10px;">
+      <div class="uk-panel uk-panel-box" style="border: 2px solid #ff6674; background: #ffffff;border-radius: 15px;">
+        <div ng-if='statusdoiphuong'>
+          <center ng-if='images_doiphuong  != null'>
+             <img class="uk-border-circle" height="100px" width="100px" ng-src="{{images_doiphuong}}">
+          </center>
+          <p style="font-family: 'Indie Flower', cursive;">Tên: {{ten}}</p>
+          <p style="font-family: 'Indie Flower', cursive;">Giới tính: {{gioitinh}}</p>
+          <button class="uk-button uk-button-primary uk-width-1-1" style="font-family: 'Indie Flower', cursive;border-radius: 10px;"><b>{{statusdoiphuong}}</b></button>
+          <p>
+          <div class="uk-grid"> 
+            <div class="uk-width-3-10"></div>
+            <div class="uk-width-1-10"><button ng-click="chiatay()" class="uk-button uk-button-primary" style="font-family: 'Indie Flower', cursive;border-radius: 10px;"><b><i class="fa fa-sign-out" aria-hidden="true"></i></b></button></div>
+          </div>
+          </p>
+        </div>
+        <div ng-if='!statusdoiphuong'>
+          <div class="uk-progress uk-progress-small uk-progress-danger uk-progress-striped uk-active">
+            <div class="uk-progress-bar" style="width: 100%;"></div>
+          </div>
+          <center>
+            <p style="font-family: 'Indie Flower', cursive;">Đang chờ một nửa của bạn...</p>
+          </center>
+        </div>
+      </div>
+      <div ng-if='get_status_phong' class="uk-panel uk-panel-box" style="border: 2px solid #ff6674; background: #ffffff;border-radius: 15px;">
+        <p><center><h3 style="font-family: 'Indie Flower', cursive;">Hai đứa đang</h3></center></p>
+        <p><button class="uk-button uk-button-primary uk-width-1-1" data-uk-modal="{center:true,target:'#statusPhong'}" style="border-radius: 10px; background: {{get_mau_status_phong}}"><b style="font-family: 'Indie Flower', cursive;">{{get_status_phong}}</b></button></p>
+          <div id="statusPhong" class="uk-modal">
+          <div class="uk-modal-dialog">
+              <a class="uk-modal-close uk-close"></a>
+              <button ng-click="status_phong_function(change_status_phong,mau_status)" ng-init="change_status_phong='Làm quen';mau_status='grey'" class="uk-button uk-button-primary custom-button-status-phong" style="border-radius: 10px;background: {{mau_status}}"><b style="font-family: 'Indie Flower', cursive;">{{change_status_phong}}</b></button>
+              <button ng-click="status_phong_function(change_status_phong_t,mau_status_t)" ng-init="change_status_phong_t='Thích thích';mau_status_t='#fff36f'" class="uk-button uk-button-primary custom-button-status-phong" style="border-radius: 10px;background: {{mau_status_t}}"><b style="font-family: 'Indie Flower', cursive;">{{change_status_phong_t}}</b></button>
+              <button ng-click="status_phong_function(change_status_phong_h,mau_status_h)" ng-init="change_status_phong_h='Hẹn hò';mau_status_h='#ff6674'" class="uk-button uk-button-primary custom-button-status-phong" style="border-radius: 10px;background: {{mau_status_h}}"><b style="font-family: 'Indie Flower', cursive;">{{change_status_phong_h}}</b></button>
+              <button ng-click="status_phong_function(change_status_phong_y,mau_status_y)" ng-init="change_status_phong_y='Yêu';mau_status_y='#fd178e'" class="uk-button uk-button-primary custom-button-status-phong" style="border-radius: 10px;background: {{mau_status_y}}"><b style="font-family: 'Indie Flower', cursive;">{{change_status_phong_y}}</b></button>
+          </div>
+          </div>
+        <!-- <p>Tình trạng: </p> -->
+      </div>
+<!--       <div class="uk-panel uk-panel-box" style="border: 1px solid #e5e5e5; background: #ffffff">
+        <center>
+          <h4 class="uk-panel-title">Thông tin
+          </h4>
+        </center>
+        <ul class="uk-list thongtin-server" style="height: 115px;">
+        </ul>
+      </div> -->
+    </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,142 @@
+textarea{
+	resize: none;
+}
+.custom-font{
+	font-family: 'Indie Flower', cursive;
+}
+.font-index-panel h4{
+	font-family: 'Indie Flower', cursive;
+}
+.custom-title-panel{
+	font-size: 35px;
+	font-family: 'Indie Flower', cursive;
+}
+.padding-box-login{
+	margin-top: 12px;
+}
+.padding-box-login-image{
+	display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.custom-button-status-phong{
+	width: 110px;
+	margin-right: 20px;
+}
+.style-font-canvas{
+	color:#ffffff;
+	font-family: 'Indie Flower', cursive;
+	font-size: 20px;
+}
+.style-font-canvas-no-center{
+	color:#ffffff;
+	font-family: 'Indie Flower', cursive;
+	font-size: 15px;
+	padding-left: 5px;
+}
+.btn-dang-xuat{
+	background: #333333;
+	border-top:1px solid #ffffff;
+	font-size: 15px;
+	font-weight: bold;
+	color: #ffffff;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	max-width: 100%;
+    position: absolute;
+    bottom:0; 
+    left:50%;
+    transform:translateX(-50%);
+}
+.btn-dang-xuat :hover{
+	background: #ff6674;
+	color:black;
+}
+.avatar-user :hover {
+	cursor: pointer;
+}
+.menu-icon{
+	position: absolute;
+	top: -205px;
+	right: 0;
+	width: 300px;
+	height: 200px;
+	display: none;
+	background: #ff6674;
+	border-radius: 5px;
+	font-size: 0;
+}
+.menu-icon div{
+	width: 100%;
+	height: 100%;
+	padding: 5px;
+	/*padding-top: 5px;*/
+	/*padding-bottom: 5px;*/
+}
+.menu-icon:before{
+	content: "";
+	position: absolute;
+	top: 200px;
+	right: 77px;
+	border-style: solid;
+	border-width: 7px;
+	border-color: #ff6674 transparent transparent transparent;
+}
+.menu-icon.active{
+	display: block;
+}
+.SizeIcon{
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	padding: 1px;
+}
+.btn-icon{
+	outline: none;
+	border: none;
+	background: none;
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 35px;
+	height: 35px;
+	background-size: 30px;
+}
+.btn-icon-smile{
+	background-image: url('../images/icon_chat.png');
+	margin-left: calc( 50% - 35px );
+}
+.btn-icon-send{
+	background-image: url( '../images/send_icon.png' );
+	background-size: 35px;
+}
+@media screen and ( max-width: 375px ){
+	.container{
+		width: 100%;
+	}
+	.uk-grid{
+		margin: 0;
+	}
+	.uk-grid > *{
+		padding: 0;
+	}
+}
+@media screen and ( max-width: 767px ){
+	.container{
+		width: 80%;
+		margin: 0 10%;
+	}
+	.uk-grid{
+		display: block;
+		margin: 0 !important;
+	}
+	.uk-grid > *{
+		padding: 0 !important;
+	}	
+}
+@media screen and ( min-width: 768px ) and ( max-width: 1024px ){
+	main{
+		height: calc( 100vh - 56px );
+	}
+}
