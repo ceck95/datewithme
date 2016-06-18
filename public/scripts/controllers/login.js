@@ -37,7 +37,7 @@ define(['angular'], function (angular) {
           $scope.update_face = function(tuoi_face,sex_face,sothich){
             if(!tuoi_face||!sex_face||!sothich){
                 UIkit.notify({
-                    message : 'Bạn không được bỏ trống !',
+                    message : '<i class="uk-icon-close"></i> Bạn không được bỏ trống !',
                     status  : 'warning',
                     timeout : 5000,
                     pos     : 'top-left'

@@ -22,7 +22,7 @@ app.set('layout', 'layout');
 app.engine('html', require('hogan-express'));
 app.set('view engine', 'html');
 
-app.use(favicon());
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());

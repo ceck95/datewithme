@@ -160,6 +160,20 @@ define(['angular'], function (angular) {
                       if (cb) cb();
                     });
                   }
+                  $http({
+                    method:"POST",
+                    url:"api/checkmessage",
+                    data:{roomname:$scope.roomname}
+                  }).then(function(response){
+                    if(response.data.message == 'success'){
+                      UIkit.notify({
+                          message : '<i class="uk-icon-check"></i> Bạn ấy đã vào phòng bắt đầu nói chuyện đi nào !',
+                          status  : 'success',
+                          timeout : 5000,
+                          pos     : 'bottom-right'
+                      });
+                    }
+                  });
                 socket.emit("join_room",$scope.roomname);
               }else if($scope.sex == 'nam'){
                 socket.emit("join_room",$scope.roomname);
@@ -261,6 +275,20 @@ define(['angular'], function (angular) {
                         $scope.sothich_doiphuong = response.data.sothich;
                       });
                     }
+                    $http({
+                      method:"POST",
+                      url:"api/checkmessage",
+                      data:{roomname:$scope.roomname}
+                    }).then(function(response){
+                      if(response.data.message == 'success'){
+                        UIkit.notify({
+                            message : '<i class="uk-icon-check"></i> Bạn ấy đã vào phòng bắt đầu nói chuyện đi nào !',
+                            status  : 'success',
+                            timeout : 5000,
+                            pos     : 'bottom-right'
+                        });
+                      }
+                    });
                 }
               });
             }
@@ -298,11 +326,7 @@ define(['angular'], function (angular) {
           socket.emit('leave_room_wait_subcribe','wait');
       })
       socket.on('inforoom',function(data){
-        if(data != null){
           get_info();
-        }else{
-          console.log('khong xac dinh')
-        }
       });      
       $scope.sendchat= function(message){
         if($scope.chat_duoc&&$scope.chat_duoc == true){
@@ -454,12 +478,19 @@ define(['angular'], function (angular) {
         $scope.chat_duoc = false;
         $scope.datamessage = '';
         xulyroom();
+        UIkit.notify({
+            message : '<i class="uk-icon-close"></i> Đối phưong đã rời khỏi cuộc nói chuyện!',
+            status  : 'danger',
+            timeout : 5000,
+            pos     : 'bottom-right'
+        });
       });
       socket.on('leave_room_to_client',function(){
         socket.emit('leave_room_from_client');
       });
       socket.on('disconnect',function(){
         socket.connect();
+        xulyroom();
       });
       $scope.thay_doi_thong_tin = function(){
         UIkit.offcanvas.hide('#my-id');

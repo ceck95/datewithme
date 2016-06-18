@@ -591,4 +591,13 @@ router.post('/thay_doi_thong_tin',function(req,res){
     });
   });
 });
+router.post('/checkmessage',function(req,res){
+  Message.findOne({roomname:req.body.roomname}).exec(function(err,doc){
+    if(!doc){
+      res.jsonp({message:"success"});
+    }else{
+      res.jsonp({message:"fail"});
+    }
+  });
+});
 module.exports = router;
