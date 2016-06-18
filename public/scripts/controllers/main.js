@@ -143,6 +143,7 @@ define(['angular'], function (angular) {
                       $scope.iddoiphuong = $scope.usernam;
                       $scope.statusdoiphuong = response.data.status;
                       $scope.images_doiphuong = response.data.images;
+                      $scope.sothich_doiphuong = response.data.sothich;
                       socket.emit("join_wait",{roomname:'wait',doiphuong:response.data._id});
                     });
                   }else if($scope.sex  == 'nam'){
@@ -161,6 +162,7 @@ define(['angular'], function (angular) {
                       $scope.ten = response.data.name;
                       $scope.statusdoiphuong = response.data.status;
                       $scope.images_doiphuong = response.data.images;
+                      $scope.sothich_doiphuong = response.data.sothich;
                       console.log('dis cu'+response.data._id);
 
                       $scope.id_doi_phuong_dang_test =response.data._id;
@@ -251,6 +253,7 @@ define(['angular'], function (angular) {
                         $scope.iddoiphuong = $scope.usernam;
                         $scope.statusdoiphuong = response.data.status;
                         $scope.images_doiphuong = response.data.images;
+                        $scope.sothich_doiphuong = response.data.sothich;
                       });
                     }else if($scope.sex  == 'nam'){
                        $http({
@@ -266,6 +269,7 @@ define(['angular'], function (angular) {
                         $scope.ten = response.data.name;
                         $scope.statusdoiphuong = response.data.status;
                         $scope.images_doiphuong = response.data.images;
+                        $scope.sothich_doiphuong = response.data.sothich;
                       });
                     }
                 }
@@ -292,6 +296,7 @@ define(['angular'], function (angular) {
                 $scope.ten = response.data.name;
                 $scope.statusdoiphuong = response.data.status;
                 $scope.images_doiphuong = response.data.images;
+                $scope.sothich_doiphuong = response.data.sothich;
                 get_info();
                 socket.emit('leave_room_wait','wait',user_goc);
             });
@@ -315,8 +320,11 @@ define(['angular'], function (angular) {
       });      
       $scope.sendchat= function(message){
         if(message){
+          if($('li.mar-btm').hasClass('status-phong-hide')){
+            $('.status-phong-hide').fadeOut("slow");
+          }
           var messagechat;
-          var array_img = [":)",":P",":-)","x-x","o-o","oxo",":zz",";-)","ox-o",":-@",":’(",":’m((",":-&",":&",":((",":-#",">_<",":-((",":@@",":@",":*",":x",":-<",":/",":(",":l(x",":c-c",":|",";)",":satan","o:h-)",">)<","c)cx","c)c",":k))o",":i))(",":g|x",":D","0o0)","0o0",":f((o",":f|o","XxX(",":e(-c","%-g(","%-f((","x:ePx","c:dPo","c:cPd",":b*x",":a/c","8|",":<3",":’)x",":)xo"];
+          var array_img = [":)",":P",":-)","x-x","o-o","oxo",":zz",";-)","ox-o",":-@",":’(",":’m((",":-&",":&",":((",":-#",">_<",":-((",":@@",":@",":*",":x",":-<",":/",":(",":l(x",":c-c",":satan",":|",";)","o:h-)",">)<","c)cx","c)c",":k))o",":i))(",":g|x",":D","0o0)","0o0",":f((o",":f|o","XxX(",":e(-c","%-g(","%-f((","x:ePx","c:dPo","c:cPd",":b*x",":a/c","8|",":<3",":’)x",":)xo"];
           angular.forEach(array_img,function(value,key){
             if(message.indexOf(value) >= 0){
               if(messagechat){
@@ -326,12 +334,15 @@ define(['angular'], function (angular) {
               }
             }
           });
+          if(!messagechat){
+            messagechat = message;
+          }
           $http({
             method:"POST",
             url:"api/message",
             data:{content:messagechat,userid:$scope.id_user_goc,images:$scope.images,roomname:$scope.roomname}
           }).then(function successCallback(response){
-            // console.log(response.data);
+            console.log(response.data);
             socket.emit("send_message", { room_name: $scope.roomname, msg: messagechat,images:$scope.images});
             $http({
               method:"POST",
@@ -351,6 +362,9 @@ define(['angular'], function (angular) {
       socket.on('new_message',function(images,data){
         // $('.nano-content.pad-all > ul').append('<li class="mar-btm"><div class="media-left"><img src="'+images+'" class="img-circle img-sm" alt="Profile Picture"></div><div class="media-body pad-hor"><div class="speech"><p  style="font-size: 13px">'+data+'</p></div></div></li>');
         // scroll_bottom();
+        if($('li.mar-btm').hasClass('status-phong-hide')){
+            $('.status-phong-hide').fadeOut("slow");
+        }
         $http({
           method:"POST",
           url:"api/get/message",
@@ -375,13 +389,14 @@ define(['angular'], function (angular) {
             $scope.ten = response.data.name;
             $scope.statusdoiphuong = response.data.status;
             $scope.images_doiphuong = response.data.images;
+            $scope.sothich_doiphuong = response.data.sothich;
           });
         }else{
           console.log('khong xac dinh')
         }
       });
       socket.on('change_status_phong_to_client',function(images,name,data){
-        $('.nano-content.pad-all > ul').append('<li class="mar-btm"><div class="media-left"><img src="'+images+'" class="img-circle img-sm" alt="Profile Picture"></div><div class="media-body pad-hor"><div class="speech"><p  style="font-size: 13px">Bạn '+name+' đã thay đổi mối quan hệ thành '+data.toLowerCase()+'</p></div></div></li>');
+        $('.nano-content.pad-all > ul').append('<li class="mar-btm status-phong-hide"><div class="media-left"><img src="'+images+'" class="img-circle img-sm" alt="Profile Picture"></div><div class="media-body pad-hor"><div class="speech"><p  style="font-size: 13px">Bạn '+name+' đã thay đổi mối quan hệ thành '+data.toLowerCase()+'</p></div></div></li>');
         get_info();
         scroll_bottom();
       });
@@ -394,7 +409,7 @@ define(['angular'], function (angular) {
               method:"GET",
               url:"api/room/updatestatus?id="+$scope.id_phong+"&status="+change_status_phong
             }).then(function successCallback(response){
-              $('.nano-content.pad-all > ul').append('<li class="mar-btm"><div class="media-right"><img src="'+$scope.images+'" class="img-circle img-sm" alt="Profile Picture"></div><div class="media-body pad-hor speech-right"><div class="speech"><p style="font-size: 13px">Bạn đã thay đổi mối quan hệ thành '+change_status_phong.toLowerCase()+'</p></div></div></li>');
+              $('.nano-content.pad-all > ul').append('<li class="mar-btm status-phong-hide"><div class="media-right"><img src="'+$scope.images+'" class="img-circle img-sm" alt="Profile Picture"></div><div class="media-body pad-hor speech-right"><div class="speech"><p style="font-size: 13px">Bạn đã thay đổi mối quan hệ thành '+change_status_phong.toLowerCase()+'</p></div></div></li>');
               UIkit.modal('#statusPhong').hide();
               socket.emit("change_status_phong",{status:change_status_phong});
             });
@@ -442,7 +457,7 @@ define(['angular'], function (angular) {
             // });
             xulyroom();
           });
-        });
+        }, {labels: {'Ok': 'Đồng ý', 'Cancel': 'Không đồng ý '},center:true});
       }
       socket.on('chiatay_to_client',function(){
         xulyroom();
@@ -476,8 +491,12 @@ define(['angular'], function (angular) {
           UIkit.modal('#thaydoithongtin', {center: true}).hide();
         });
       }
-      $( '.uk-button-icon' ).on( 'click', function(){
+      $( '.uk-button-icon' ).on( 'click', function( e ){
+        e.stopPropagation();
         $( '.menu-icon' ).toggleClass( 'active' );
+      })
+      $( document.body ).on( 'click', function(){
+        $( '.menu-icon' ).removeClass( 'active' );
       })
       $scope.getNumber = function(num) {
           return new Array(num);   
@@ -485,7 +504,7 @@ define(['angular'], function (angular) {
       $scope.inputimages = function(e){
         var link_img = $(e.target).data('img');
         var img;
-        var array_img = [":)",":P",":-)","x-x","o-o","oxo",":zz",";-)","ox-o",":-@",":’(",":’m((",":-&",":&",":((",":-#",">_<",":-((",":@@",":@",":*",":x",":-<",":/",":(",":l(x",":c-c",":|",";)",":satan","o:h-)",">)<","c)cx","c)c",":k))o",":i))(",":g|x",":D","0o0)","0o0",":f((o",":f|o","XxX(",":e(-c","%-g(","%-f((","x:ePx","c:dPo","c:cPd",":b*x",":a/c","8|",":<3",":’)x",":)xo"];
+        var array_img = [":)",":P",":-)","x-x","o-o","oxo",":zz",";-)","ox-o",":-@",":’(",":’m((",":-&",":&",":((",":-#",">_<",":-((",":@@",":@",":*",":x",":-<",":/",":(",":l(x",":c-c",":satan",":|",";)","o:h-)",">)<","c)cx","c)c",":k))o",":i))(",":g|x",":D","0o0)","0o0",":f((o",":f|o","XxX(",":e(-c","%-g(","%-f((","x:ePx","c:dPo","c:cPd",":b*x",":a/c","8|",":<3",":’)x",":)xo"];
         angular.forEach(array_img,function(value,key){
           var link_img_check = '/images/icon/icon_'+parseInt(key+1)+'.png';
           if(link_img == link_img_check){
@@ -500,7 +519,10 @@ define(['angular'], function (angular) {
           $scope.messagechat = img+' ';
         }
         $('textarea').focus();
-        // $( '.menu-icon' ).removeClass('active');
+        $( '.menu-icon' ).removeClass('active');
+      };
+      $scope.thongtindoiphuong = function(){
+        UIkit.modal('#thongtindoiphuong', {center: true}).show();
       };
   }).directive('selfEnter', function () {
     return function (scope, element, attrs) {
