@@ -89,6 +89,7 @@ define(['angular'], function (angular) {
               $scope.usernu_a =  response.data.useridnu;
               $scope.id_phong = response.data._id;
               if(response.data.havenu == true){
+                $scope.chat_duoc = true;
                 if(!response.data.status){
                     $http({
                       method:"GET",
@@ -208,6 +209,7 @@ define(['angular'], function (angular) {
                 $scope.usernu =  response.data.useridnu;
                 $scope.room_id = response.data._id;
                 if(response.data.havenu == true){
+                  $scope.chat_duoc = true;
                   if(!response.data.status){
                       $http({
                         method:"GET",
@@ -319,40 +321,49 @@ define(['angular'], function (angular) {
         }
       });      
       $scope.sendchat= function(message){
-        if(message){
-          if($('li.mar-btm').hasClass('status-phong-hide')){
-            $('.status-phong-hide').fadeOut("slow");
-          }
-          var messagechat;
-          var array_img = [":)",":P",":-)","x-x","o-o","oxo",":zz",";-)","ox-o",":-@",":’(",":’m((",":-&",":&",":((",":-#",">_<",":-((",":@@",":@",":*",":x",":-<",":/",":(",":l(x",":c-c",":satan",":|",";)","o:h-)",">)<","c)cx","c)c",":k))o",":i))(",":g|x",":D","0o0)","0o0",":f((o",":f|o","XxX(",":e(-c","%-g(","%-f((","x:ePx","c:dPo","c:cPd",":b*x",":a/c","8|",":<3",":’)x",":)xo"];
-          angular.forEach(array_img,function(value,key){
-            if(message.indexOf(value) >= 0){
-              if(messagechat){
-                messagechat = messagechat.split(value).join('<img class="SizeIcon" src="/images/icon/icon_'+parseInt(key+1)+'.png"/>');
-              }else{
-                messagechat = message.split(value).join('<img class="SizeIcon" src="/images/icon/icon_'+parseInt(key+1)+'.png"/>');
-              }
+        if($scope.chat_duoc){
+          if(message){
+            if($('li.mar-btm').hasClass('status-phong-hide')){
+              $('.status-phong-hide').fadeOut("slow");
             }
-          });
-          if(!messagechat){
-            messagechat = message;
-          }
-          $http({
-            method:"POST",
-            url:"api/message",
-            data:{content:messagechat,userid:$scope.id_user_goc,images:$scope.images,roomname:$scope.roomname}
-          }).then(function successCallback(response){
-            console.log(response.data);
-            socket.emit("send_message", { room_name: $scope.roomname, msg: messagechat,images:$scope.images});
+            var messagechat;
+            var array_img = [":)",":P",":-)","x-x","o-o","oxo",":zz",";-)","ox-o",":-@",":’(",":’m((",":-&",":&",":((",":-#",">_<",":-((",":@@",":@",":*",":x",":-<",":/",":(",":l(x",":c-c",":satan",":|",";)","o:h-)",">)<","c)cx","c)c",":k))o",":i))(",":g|x",":D","0o0)","0o0",":f((o",":f|o","XxX(",":e(-c","%-g(","%-f((","x:ePx","c:dPo","c:cPd",":b*x",":a/c","8|",":<3",":’)x",":)xo"];
+            angular.forEach(array_img,function(value,key){
+              if(message.indexOf(value) >= 0){
+                if(messagechat){
+                  messagechat = messagechat.split(value).join('<img class="SizeIcon" src="/images/icon/icon_'+parseInt(key+1)+'.png"/>');
+                }else{
+                  messagechat = message.split(value).join('<img class="SizeIcon" src="/images/icon/icon_'+parseInt(key+1)+'.png"/>');
+                }
+              }
+            });
+            if(!messagechat){
+              messagechat = message;
+            }
             $http({
               method:"POST",
-              url:"api/get/message",
-              data:{roomname:$scope.roomname}
+              url:"api/message",
+              data:{content:messagechat,userid:$scope.id_user_goc,images:$scope.images,roomname:$scope.roomname}
             }).then(function successCallback(response){
-              $scope.datamessage = response.data;
+              console.log(response.data);
+              socket.emit("send_message", { room_name: $scope.roomname, msg: messagechat,images:$scope.images});
+              $http({
+                method:"POST",
+                url:"api/get/message",
+                data:{roomname:$scope.roomname}
+              }).then(function successCallback(response){
+                $scope.datamessage = response.data;
+              });
+              $scope.messagechat = '';
+              // $('.nano-content.pad-all > ul').append('<li class="mar-btm"><div class="media-right"><img src="'+$scope.images+'" class="img-circle img-sm" alt="Profile Picture"></div><div class="media-body pad-hor speech-right"><div class="speech"><p style="font-size: 13px">'+message+'</p></div></div></li>');
             });
-            $scope.messagechat = '';
-            // $('.nano-content.pad-all > ul').append('<li class="mar-btm"><div class="media-right"><img src="'+$scope.images+'" class="img-circle img-sm" alt="Profile Picture"></div><div class="media-body pad-hor speech-right"><div class="speech"><p style="font-size: 13px">'+message+'</p></div></div></li>');
+          }
+        }else{
+          UIkit.notify({
+              message : '<i class="uk-icon-close"></i> Chưa có bạn để trò chuyện !',
+              status  : 'warning',
+              timeout : 5000,
+              pos     : 'bottom-right'
           });
         }
       };
