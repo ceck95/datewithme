@@ -75,7 +75,6 @@ router.get('/logout',isAuthenticated,function(req,res){
 });
 router.post('/signup', function(req, res, next ){
     passport.authenticate('signup', function(err, user, info) {
-      console.log(err,user,info)
       if (err) { return next(err) }
       if (!user) { return res.json(info) }
       res.json(user);
@@ -98,7 +97,6 @@ router.post('/dangnhap', function(req, res, next) {
   })(req, res, next);
 });
 router.post('/kickhoat',function(req,res){
-  console.log(req.body.username,req.body.makh)
   User.findOne({
     $and:[
       {username:req.body.username},
@@ -229,8 +227,6 @@ router.post('/kickhoat',function(req,res){
 router.post('/joinwait',function(req,res){
   var id_user = req.body.user;
   var sex_user = req.body.sex;
-  console.log('test'+sex_user);
-  console.log('test'+id_user);
   if(sex_user == 'nu'){
     Room.findOne({
       $and:[
@@ -238,11 +234,9 @@ router.post('/joinwait',function(req,res){
         {'havenu':true}
       ]}).exec(function(err,doc){
       if(doc){
-        console.log('vao day');
         res.jsonp(doc);
       }else{
         Room.find({havenu:false}).exec(function(err,data){
-          console.log('dang test'+data.length);
           if(data.length == 0){
                Wait.findOne({'userid':id_user}).exec(function(err,doc){
                 if(doc){
@@ -262,7 +256,6 @@ router.post('/joinwait',function(req,res){
               for(var i in data){
                 listblockget.push(data[i]._id);
               }
-              console.log('asdasdassafsafa'+listblockget);
               (function next(index) {
                 if (index === data.length) { // No items left
                     Wait.findOne({userid:id_user}).exec(function(err,doc){
@@ -288,7 +281,6 @@ router.post('/joinwait',function(req,res){
                     {userid:id_user}
                   ]
                 }).exec(function(err,doc){
-                  console.log(index);
                   if(!doc){
                       Room.findById(listblockget[index]).exec(function(err,doc){
                         Wait.findOne({'userid':id_user}).exec(function(err,doc){
@@ -296,7 +288,6 @@ router.post('/joinwait',function(req,res){
                             if (err) res.jsonp({message:'Loi xoa Wait'});
                           })
                         });
-                        console.log('dnagtest'+listblockget[index]);
                         doc.useridnu = id_user;
                         doc.havenu = true;
                         doc.save(function(err,doc){
@@ -387,7 +378,6 @@ router.post('/joinwait',function(req,res){
               var id_phong_moi = doc._id;
               Wait.find({sex:'nu'}).exec(function(err,doc){
                 if(doc.length > 0){
-                  console.log('vao'+doc.length);
                   var listblockget_nam = [];
                   for(var i in doc){
                     listblockget_nam.push(doc[i].userid);
@@ -503,7 +493,6 @@ router.get('/user/updatestatus',function(req,res){
   var id = req.query.id;
   var status = req.query.status;
   User.findById(id).exec(function(err,doc){
-    console.log(doc);
     doc.status = status;
     doc.save(function(err,doc){
       if(err) res.jsonp({message:'error update status'})
@@ -542,7 +531,6 @@ router.post('/update/userface',isAuthenticated,function(req,res){
       doc.images = '/images/nu.png'
     }
     doc.save(function(err,doc){
-      console.log(doc);
       res.jsonp(doc);
     });
   });
@@ -558,14 +546,13 @@ router.post('/chiatay',function(req,res){
     doc.havenu = false;
     doc.status = '';
     doc.save(function(err,doc){
-     Message.find({roomname:id}).remove().exec();
+     Message.find({roomname:req.body.roomname}).remove().exec();
      res.jsonp([{message:'chia tay thanh cong'},{thongtin:doc}]);
     })
   });
 });
 router.post('/message',function(req,res){
   var content = req.body.content;
-  console.log('bugs'+content);
   var userid = req.body.userid;
   var images = req.body.images;
   var roomname = req.body.roomname;

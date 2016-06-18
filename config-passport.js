@@ -10,7 +10,6 @@ passport.use(new Strategy({
   callbackURL: "http://datewithme.nhutuit.com/auth/facebook/callback",
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
     User.findOne({ idFace: profile.id }, function(err, user) {
       if(err) {
         console.log(err);  // handle errors!
@@ -48,7 +47,6 @@ passport.use('login', new LocalStrategy({
         if (err)
           return done(err);
         if (!user){
-          console.log('User Not Found with username '+username);
           return done(null, false, 
                 {'message': 'User Not found.','fail_user':true});                 
         }
@@ -81,7 +79,6 @@ passport.use('signup', new LocalStrategy({
           var hashConfig = function(username) {
             return bCrypt.hashSync(username, bCrypt.genSaltSync(1), null);
           }
-          console.log(hashConfig(username));
           var config = hashConfig(username);
           var newUser = new User();
           newUser.username = username;
@@ -126,12 +123,10 @@ passport.use('signup', new LocalStrategy({
     process.nextTick(findOrCreateUser);
 }));
 passport.serializeUser(function(user, done) {
-  console.log('set'+user);
   done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log('get'+id);
   User.findById(id, function(err, user){
       if(!err) done(null, user);
       else done(err, null);

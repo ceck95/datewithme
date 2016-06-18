@@ -64,11 +64,9 @@ var io = socket.listen(server);
 
 io.on('connection', function(socket){
     socket.on('dangnhap', function(data){
-        console.log(data);
         socket.username = data.username;
         socket.name = data.name;
         socket.images = data.images;
-        console.log(data.images);
     })
     socket.on('join_room', function(room_name){
         socket.join(room_name);
@@ -99,13 +97,11 @@ io.on('connection', function(socket){
     });
     socket.on('leave_room',function(){
         socket.broadcast.to(socket.room).emit('leave_room_to_client');
-        console.log('===================================>asdasdasddfffffffffffffffffffffffff '+socket.username);
         delete socket.room;
         socket.leave(socket.room);
         socket.disconnect();
     });
     socket.on('leave_room_from_client',function(){
-        console.log('===================================>asdasdasd  '+socket.username);
         delete socket.room;
         socket.leave(socket.room);
         socket.disconnect();

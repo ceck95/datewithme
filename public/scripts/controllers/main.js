@@ -15,12 +15,10 @@ define(['angular'], function (angular) {
             method:"GET",
             url:"api/checklogin"
           }).then(function successCallback(response){
-            console.log(response.data);
             if(response.data.stage == 'firewall'){
                 $cookieStore.remove('globals');
                 $location.path('/login');
             }else{
-              console.log(response);
               $scope.username = response.data.user.username;
               $scope.name = response.data.user.name;
               $scope.images = response.data.user.images;
@@ -61,7 +59,6 @@ define(['angular'], function (angular) {
           method:"GET",
           url:"api/checklogin"
         }).then(function successCallback(response){
-          console.log(response.data);
           if(response.data.user){
             $scope.iduser = response.data.user._id;
             $scope.sex = response.data.user.sex;
@@ -69,7 +66,6 @@ define(['angular'], function (angular) {
               method:'GET',
               url:'api/user/updatestatus?id='+$scope.iduser+'&status=Online'
             }).then(function successCallback(response){
-              console.log(response.data);
             });
             if($scope.sex == 'nu'){
               $scope.sexvi = 'Nữ'
@@ -81,8 +77,6 @@ define(['angular'], function (angular) {
             url:"api/joinwait",
             data:{user:$scope.iduser,sex:response.data.user.sex}
             }).then(function successCallback(response){
-              console.log('wtf'+$scope.sex);
-              console.log(response.data);
               $scope.room_id = response.data._id;
               $scope.roomname = response.data.name;
               $scope.usernam_a = response.data.useridnam;
@@ -133,8 +127,6 @@ define(['angular'], function (angular) {
                       method:"GET",
                       url:"api/get/user/"+$scope.usernam_a
                     }).then(function successCallback(response){
-                      console.log('test chia tay');
-                      console.log(response.data);
                        if(response.data.sex == 'nu'){
                           $scope.gioitinh = 'Nữ'
                         }else if(response.data.sex == 'nam'){
@@ -152,8 +144,6 @@ define(['angular'], function (angular) {
                       method:"GET",
                       url:"api/get/user/"+$scope.usernu_a
                     }).then(function successCallback(response){
-                      console.log(response.data._id);
-                      console.log(response.data);
                       if(response.data.sex == 'nu'){
                           $scope.gioitinh = 'Nữ'
                         }else if(response.data.sex == 'nam'){
@@ -164,20 +154,15 @@ define(['angular'], function (angular) {
                       $scope.statusdoiphuong = response.data.status;
                       $scope.images_doiphuong = response.data.images;
                       $scope.sothich_doiphuong = response.data.sothich;
-                      console.log('dis cu'+response.data._id);
-
                       $scope.id_doi_phuong_dang_test =response.data._id;
-                      console.log(socket)
                       socket.emit("join_wait",{roomname:'wait',doiphuong:response.data._id});
                       if (cb) cb(response.data._id);
                     });
                   }
                 socket.emit("join_room",$scope.roomname);
               }else if($scope.sex == 'nam'){
-                console.log('day la ban nam da tao phong va tham gia phong');
                 socket.emit("join_room",$scope.roomname);
               }else if($scope.sex == 'nu'){
-                console.log('day la ban nu da tham gia cho');
                 socket.emit("join_wait",{roomname:'wait'});
               }
             })
@@ -203,7 +188,6 @@ define(['angular'], function (angular) {
               url:"api/joinwait",
               data:{user:$scope.iduser,sex:$scope.sex}
               }).then(function successCallback(response){
-                console.log('info socket'+response.data);
                 $scope.roomname = response.data.name;
                 $scope.usernam = response.data.useridnam;
                 $scope.usernu =  response.data.useridnu;
@@ -280,7 +264,6 @@ define(['angular'], function (angular) {
           });
       };
       socket.on('to_client_join_wait',function(user_goc,data){
-        console.log('xu ly wait');
         if(user_goc == $scope.id_user_goc){
           socket.emit("join_room",data);
           if(data != null){
@@ -288,7 +271,6 @@ define(['angular'], function (angular) {
               method:"GET",
               url:"api/get/user/"+user_goc
             }).then(function successCallback(response){
-              console.log('wtf'+response.data);
               if(response.data.sex == 'nu'){
                   $scope.gioitinh = 'Nữ'
                 }else if(response.data.sex == 'nam'){
@@ -313,7 +295,6 @@ define(['angular'], function (angular) {
           socket.emit('leave_room_wait_subcribe','wait');
       })
       socket.on('inforoom',function(data){
-        console.log('info'+data);
         if(data != null){
           get_info();
         }else{
@@ -321,7 +302,7 @@ define(['angular'], function (angular) {
         }
       });      
       $scope.sendchat= function(message){
-        if($scope.chat_duoc){
+        if($scope.chat_duoc&&$scope.chat_duoc == true){
           if(message){
             if($('li.mar-btm').hasClass('status-phong-hide')){
               $('.status-phong-hide').fadeOut("slow");
@@ -345,7 +326,6 @@ define(['angular'], function (angular) {
               url:"api/message",
               data:{content:messagechat,userid:$scope.id_user_goc,images:$scope.images,roomname:$scope.roomname}
             }).then(function successCallback(response){
-              console.log(response.data);
               socket.emit("send_message", { room_name: $scope.roomname, msg: messagechat,images:$scope.images});
               $http({
                 method:"POST",
@@ -385,7 +365,6 @@ define(['angular'], function (angular) {
         });
       });
       socket.on('has_left_x',function(data){
-        console.log('tat'+data);
         if(data != null){
           $http({
             method:"GET",
@@ -458,19 +437,18 @@ define(['angular'], function (angular) {
           $http({
             method:"POST",
             url:"api/chiatay",
-            data:{room:$scope.room_id}
+            data:{room:$scope.room_id,roomname:$scope.roomname}
           }).then(function successCallback(response){
+            $scope.chat_duoc = false;
+            $scope.datamessage = '';
             socket.emit('chiatay');
             socket.emit('leave_room');
-            // xulyroom(function (id) {
-            //   socket.emit("join_wait",{roomname:'wait',doiphuong:id});
-              
-            // });
             xulyroom();
           });
         }, {labels: {'Ok': 'Đồng ý', 'Cancel': 'Không đồng ý '},center:true});
       }
       socket.on('chiatay_to_client',function(){
+        $scope.chat_duoc = false;
         xulyroom();
       });
       socket.on('leave_room_to_client',function(){
@@ -565,7 +543,6 @@ define(['angular'], function (angular) {
           }
         });
         return read = function() {
-          console.log("read()");
           return ngModel.$setViewValue($.trim(element.html()));
         };
       }
