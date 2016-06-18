@@ -9,7 +9,7 @@ define(['angular'], function (angular) {
    * Controller of the angularRequireApp
    */
   angular.module('angularRequireApp.controllers.MainCtrl', [])
-    .controller('MainCtrl', function ($scope,$location,$http,$cookieStore,$window) {
+    .controller('MainCtrl', function ($scope,$location,$http,$cookieStore,$window,$timeout) {
       var socket = io('/');
       $http({
             method:"GET",
@@ -138,6 +138,7 @@ define(['angular'], function (angular) {
                       $scope.images_doiphuong = response.data.images;
                       $scope.sothich_doiphuong = response.data.sothich;
                       socket.emit("join_wait",{roomname:'wait',doiphuong:response.data._id});
+                      if (cb) cb();
                     });
                   }else if($scope.sex  == 'nam'){
                      $http({
@@ -156,14 +157,16 @@ define(['angular'], function (angular) {
                       $scope.sothich_doiphuong = response.data.sothich;
                       $scope.id_doi_phuong_dang_test =response.data._id;
                       socket.emit("join_wait",{roomname:'wait',doiphuong:response.data._id});
-                      if (cb) cb(response.data._id);
+                      if (cb) cb();
                     });
                   }
                 socket.emit("join_room",$scope.roomname);
               }else if($scope.sex == 'nam'){
                 socket.emit("join_room",$scope.roomname);
+                if (cb) cb();
               }else if($scope.sex == 'nu'){
                 socket.emit("join_wait",{roomname:'wait'});
+                if (cb) cb();
               }
             })
           }
@@ -439,11 +442,11 @@ define(['angular'], function (angular) {
             url:"api/chiatay",
             data:{room:$scope.room_id,roomname:$scope.roomname}
           }).then(function successCallback(response){
-            $scope.chat_duoc = false;
-            $scope.datamessage = '';
+            xulyroom();
             socket.emit('chiatay');
             socket.emit('leave_room');
-            xulyroom();
+            $scope.chat_duoc = false;
+            $scope.datamessage = '';
           });
         }, {labels: {'Ok': 'Đồng ý', 'Cancel': 'Không đồng ý '},center:true});
       }

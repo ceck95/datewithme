@@ -257,7 +257,7 @@ router.post('/joinwait',function(req,res){
                 listblockget.push(data[i]._id);
               }
               (function next(index) {
-                if (index === data.length) { // No items left
+                if (index === listblockget.length) { // No items left
                     Wait.findOne({userid:id_user}).exec(function(err,doc){
                       if(doc){
                         res.end('dang tham gia phong cho');
@@ -274,30 +274,31 @@ router.post('/joinwait',function(req,res){
                       }
                     });
                     return;
+                }else{
+                  ListBlock.findOne({
+                    $and:[
+                      {roomid:listblockget[index]},
+                      {userid:id_user}
+                    ]
+                  }).exec(function(err,doc){
+                    if(!doc){
+                        Room.findById(listblockget[index]).exec(function(err,doc){
+                          Wait.findOne({'userid':id_user}).exec(function(err,doc){
+                            Wait.remove({'userid':id_user},function(err){
+                              if (err) res.jsonp({message:'Loi xoa Wait'});
+                            })
+                          });
+                          doc.useridnu = id_user;
+                          doc.havenu = true;
+                          doc.save(function(err,doc){
+                            res.jsonp(doc);
+                          });
+                        });
+                    }else{
+                      next(index+1); 
+                    }
+                  });
                 }
-                ListBlock.findOne({
-                  $and:[
-                    {roomid:listblockget[index]},
-                    {userid:id_user}
-                  ]
-                }).exec(function(err,doc){
-                  if(!doc){
-                      Room.findById(listblockget[index]).exec(function(err,doc){
-                        Wait.findOne({'userid':id_user}).exec(function(err,doc){
-                          Wait.remove({'userid':id_user},function(err){
-                            if (err) res.jsonp({message:'Loi xoa Wait'});
-                          })
-                        });
-                        doc.useridnu = id_user;
-                        doc.havenu = true;
-                        doc.save(function(err,doc){
-                          res.jsonp(doc);
-                        });
-                      });
-                  }else{
-                    next(index+1); 
-                  }
-                });
             })(0);
           }
         });
@@ -322,37 +323,39 @@ router.post('/joinwait',function(req,res){
                     listblockget_nam.push(doc[i].userid);
                   }
                   (function next(index) {
-                    if (index === doc.length) { // No items left
+                    if (index == listblockget_nam.length) { // No items left
                         Room.findById(id_phong_moi).exec(function(err,doc){
                           res.jsonp(doc);
                           return;
                         });
+                    }else{
+                      ListBlock.findOne({
+                        $and:[
+                          {roomid:id_phong_moi},
+                          {userid:listblockget_nam[index]}
+                        ]
+                      }).exec(function(err,doc){
+                        if(!doc){
+                            Room.findById(id_phong_moi).exec(function(err,doc){
+                              Wait.findOne({'userid':listblockget_nam[index]}).exec(function(err,doc){
+                                if(doc){
+                                  Wait.remove({'userid':listblockget_nam[index]},function(err){
+                                    if (err) res.jsonp({message:'Loi xoa Wait'});
+                                  })
+                                }
+                              });
+                              doc.useridnu = listblockget_nam[index];
+                              doc.havenu = true;
+                              doc.save(function(err,doc){
+                                res.send(doc);
+                                return;
+                              });
+                            });
+                        }else{
+                          next(index+1); 
+                        }
+                      });
                     }
-                    ListBlock.findOne({
-                      $and:[
-                        {roomid:id_phong_moi},
-                        {userid:listblockget_nam[index]}
-                      ]
-                    }).exec(function(err,doc){
-                      if(!doc){
-                          Room.findById(id_phong_moi).exec(function(err,doc){
-                            Wait.findOne({'userid':listblockget_nam[index]}).exec(function(err,doc){
-                              if(doc){
-                                Wait.remove({'userid':listblockget_nam[index]},function(err){
-                                  if (err) res.jsonp({message:'Loi xoa Wait'});
-                                })
-                              }
-                            });
-                            doc.useridnu = listblockget_nam[index];
-                            doc.havenu = true;
-                            doc.save(function(err,doc){
-                              res.send(doc);
-                            });
-                          });
-                      }else{
-                        next(index+1); 
-                      }
-                    });
                 })(0);
                 }else{
                   Room.findById(id_phong_moi).exec(function(err,doc){
@@ -383,37 +386,38 @@ router.post('/joinwait',function(req,res){
                     listblockget_nam.push(doc[i].userid);
                   }
                   (function next(index) {
-                      if (index === doc.length) { // No items left
+                      if (index === listblockget_nam.length) { // No items left
                           Room.findById(id_phong_moi).exec(function(err,doc){
                             res.jsonp(doc);
                             return;
                           });
+                      }else{
+                        ListBlock.findOne({
+                          $and:[
+                            {roomid:id_phong_moi},
+                            {userid:listblockget_nam[index]}
+                          ]
+                        }).exec(function(err,doc){
+                          if(!doc){
+                              Room.findById(id_phong_moi).exec(function(err,doc){
+                                Wait.findOne({'userid':listblockget_nam[index]}).exec(function(err,doc){
+                                  if(doc){
+                                    Wait.remove({'userid':listblockget_nam[index]},function(err){
+                                      if (err) res.jsonp({message:'Loi xoa Wait'});
+                                    })
+                                  }
+                                });
+                                doc.useridnu = listblockget_nam[index];
+                                doc.havenu = true;
+                                doc.save(function(err,doc){
+                                  res.send(doc);
+                                });
+                              });
+                          }else{
+                            next(index+1); 
+                          }
+                        });
                       }
-                      ListBlock.findOne({
-                        $and:[
-                          {roomid:id_phong_moi},
-                          {userid:listblockget_nam[index]}
-                        ]
-                      }).exec(function(err,doc){
-                        if(!doc){
-                            Room.findById(id_phong_moi).exec(function(err,doc){
-                              Wait.findOne({'userid':listblockget_nam[index]}).exec(function(err,doc){
-                                if(doc){
-                                  Wait.remove({'userid':listblockget_nam[index]},function(err){
-                                    if (err) res.jsonp({message:'Loi xoa Wait'});
-                                  })
-                                }
-                              });
-                              doc.useridnu = listblockget_nam[index];
-                              doc.havenu = true;
-                              doc.save(function(err,doc){
-                                res.send(doc);
-                              });
-                            });
-                        }else{
-                          next(index+1); 
-                        }
-                      });
                   })(0);
                 }else{
                   Room.findById(id_phong_moi).exec(function(err,doc){
@@ -438,37 +442,38 @@ router.post('/joinwait',function(req,res){
                     listblockget_nam.push(doc[i].userid);
                   }
                   (function next(index) {
-                    if (index === doc.length) { // No items left
+                    if (index === listblockget_nam.length) { // No items left
                         Room.findById(id_phong_moi).exec(function(err,doc){
                           res.jsonp(doc);
                           return;
                         });
+                    }else{
+                      ListBlock.findOne({
+                        $and:[
+                          {roomid:id_phong_moi},
+                          {userid:listblockget_nam[index]}
+                        ]
+                      }).exec(function(err,doc){
+                        if(!doc){
+                            Room.findById(id_phong_moi).exec(function(err,doc){
+                              Wait.findOne({'userid':id_user}).exec(function(err,doc){
+                                if(doc){
+                                  Wait.remove({'userid':id_user},function(err){
+                                    if (err) res.jsonp({message:'Loi xoa Wait'});
+                                  })
+                                }
+                              });
+                              doc.useridnu = listblockget_nam[index];
+                              doc.havenu = true;
+                              doc.save(function(err,doc){
+                                res.jsonp(doc);
+                              });
+                            });
+                        }else{
+                          next(index+1); 
+                        }
+                      });
                     }
-                    ListBlock.findOne({
-                      $and:[
-                        {roomid:id_phong_moi},
-                        {userid:listblockget_nam[index]}
-                      ]
-                    }).exec(function(err,doc){
-                      if(!doc){
-                          Room.findById(id_phong_moi).exec(function(err,doc){
-                            Wait.findOne({'userid':id_user}).exec(function(err,doc){
-                              if(doc){
-                                Wait.remove({'userid':id_user},function(err){
-                                  if (err) res.jsonp({message:'Loi xoa Wait'});
-                                })
-                              }
-                            });
-                            doc.useridnu = listblockget_nam[index];
-                            doc.havenu = true;
-                            doc.save(function(err,doc){
-                              res.jsonp(doc);
-                            });
-                          });
-                      }else{
-                        next(index+1); 
-                      }
-                    });
                 })(0);
                 }else{
                   Room.findById(id_phong_moi).exec(function(err,doc){
