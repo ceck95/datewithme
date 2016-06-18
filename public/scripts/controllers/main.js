@@ -449,6 +449,7 @@ define(['angular'], function (angular) {
       }
       socket.on('chiatay_to_client',function(){
         $scope.chat_duoc = false;
+        $scope.datamessage = '';
         xulyroom();
       });
       socket.on('leave_room_to_client',function(){
