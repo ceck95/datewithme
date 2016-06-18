@@ -7,7 +7,7 @@ var nodemailer = require('nodemailer');
 passport.use(new Strategy({
 	clientID: "192978661087964",
 	clientSecret: "22125867bbff0003e59460794c6f0aa5",
-  callbackURL: "http://localhost:3000/auth/facebook/callback",
+  callbackURL: "http://datewithme.nhutuit.com/auth/facebook/callback",
   },
   function(accessToken, refreshToken, profile, done) {
     console.log(profile);
