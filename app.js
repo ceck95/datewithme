@@ -59,7 +59,7 @@ app.use(function(err, req, res, next) {
     });
 });
 var socket = require('socket.io');
-var server = app.listen(3535);
+var server = app.listen(3000);
 var io = socket.listen(server);
 
 io.on('connection', function(socket){
